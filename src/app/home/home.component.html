@@ -1,0 +1,56 @@
+
+
+<div class="header">
+  <div class="clearfix "><h1>Administrador</h1>
+    <button id="logoutBtn" class="btn btn-warning" type="submit" (click)="logout()" >Logout</button>
+  </div>
+  <div>
+
+  </div>
+
+  <form class="search-bar" [formGroup]="form" (ngSubmit)="searchBookings()">
+    <div class="inputs">
+        <input class="text" formControlName="email" type="email" placeholder="Correo del usuario">
+    </div>
+    <button class="btn btn-warning" type="submit">Buscar</button>
+  </form>
+</div>
+<div class="body">
+  <input class="filter" [(ngModel)]="searchTerm" (input)="setFilteredItems()" type="text" placeholder="Filtrar por ID">
+  <input class="filter"  type="number" min="0" placeholder="Introduzca precio minimo" #minPrice>
+  <input class="filter"  type="number" min="0" placeholder="Introduzca precio maximo" #maxPrice>
+  <div>
+    <button class="btn btn-outline-warning" id="priceFilter" type="button" (click)="priceFilter(minPrice.value, maxPrice.value)">Filtrar</button>
+  </div>
+  <div class="list">
+    <div *ngIf="bookings.length > 0 || firstSearch; else noResults">
+      <table class="table" id="list">
+        <thead>
+        <tr>
+          <th scope="col">BookingId</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Fecha de Creació</th>
+          <th scope="col">Dirección</th>
+          <th scope="col">Precio</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td>{{booking.bookingId}}</td>
+          <td>{{booking.tutenUserClient.firstName}} {{booking.tutenUserClient.lastName}}</td>
+          <td>@{{booking.bookingTime | date: 'dd-MM-yyyy'}}</td>
+          <td>{{ booking.locationId.streetAddress }}</td>
+          <td>{{booking.bookingPrice}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-template #noResults>
+    <div class="item">
+      No se encontraron registros asociados a ese correo.
+    </div>
+  </ng-template>
+</div>
+
+
